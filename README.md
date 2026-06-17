@@ -88,6 +88,45 @@ Review the unified layout of the Cortex predictive quantitative terminal:
 
 ---
 
+
+
+
+## 🛠️ Advanced Headless Setup (Python / Node.js Source Core)
+
+For quantitative developers executing algorithms inside headless remote Linux servers, customized API routers, or isolated Docker containers, the raw processing modules can be deployed manually from the repository root.
+
+### Prerequisites
+* Python 3.9.10+
+* Node.js 16+
+* Valid `credentials.json` for Google Sheets data mapping infrastructure.
+
+### 1. Dependency Synchronization
+Deploy via modern package managers for automated local workspace insulation:
+```bash
+# Install UV package manager
+powershell -c "irm [https://astral.sh/uv/install.ps1](https://astral.sh/uv/install.ps1) | iex"
+
+# Synchronize python environment parameters & execution layers
+uv sync
+
+# Initialize node merging hooks
+cd poly_merger && npm install && cd ..
+2. Environment Activation & Daemon Launch
+Copy the environment template file to create your active .env parameters block:
+
+
+cp .env.example .env
+Ensure your cryptographic variables (PK, BROWSER_ADDRESS, SPREADSHEET_URL) match your active deployment state before triggering the pipeline:
+
+
+# Start the market-making daemon
+uv run python main.py
+
+# Run the market discovery daemon
+uv run python find_markets_runner.py
+```
+
+
 ## ⚡ Cortex AI vs Legacy Paper Trading Bots
 Why automated trading groups deploy the Cortex terminal over traditional command-line scripts:
 
