@@ -19,7 +19,7 @@
 </p>    
  
 <p align="center">
-  <img src="Cortex.gif" alt="Main UI live operation workspace animation for Cortex AI Polymarket Engine execution terminal">
+  <img src="Cortex_Polymarket.gif" alt="Main UI live operation workspace animation for Cortex AI Polymarket Engine execution terminal">
 </p>
 
 ## 🚀 High-Frequency Mirror Trading Architecture & Event Contract Execution
